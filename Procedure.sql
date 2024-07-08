@@ -19,6 +19,29 @@ IS
  END;
 
 EXECUTE EMP_EXPER(2005);
+
+--=====================================================================================
+SET SERVEROUTPUT ON
+ CREATE OR REPLACE PROCEDURE PRO_1(HIRE_YEAR NUMBER) 
+ IS
+ CURSOR EMP_CUR 
+ IS
+ SELECT 
+ FIRST_NAME,
+ LAST_NAME,
+ ROUND(MONTH_BETWEEN(HIRE_DATE)/12,2) AS TOTAL_EXPERIENCE
+ FROM EMPLOYEES
+ WHERE EXTRACT(YEAR FROM HIRE_DATE)=HIRE_YEAR;
+BEGIN
+  FOR I IN EMP_CUR
+ LOOP
+ DMBS_OUTPUT.PUT_LINE(I.FIRST_NAME||' '||I.LAST_NAME||' '||I.TOTAL_EXPERIENCE);
+END LOOP
+ END;
+
+EXECUTE PRO_1(2006);
+
+
 --Q2.. pass job_id , print manager details
 SET SERVEROUTPUT ON
 CREATE OR REPLACE PROCEDURE EMP_JOB(JOBID VARCHAR2)
@@ -44,4 +67,4 @@ EXECUTE EMP_JOB('FI_MGR');
 
 
 
--- Q3.. pass department_id and year_of_joining , calculate their experiecne, print salary hike
+-- Q3.. pass department_id and year_of_joining , calculate their experiecne, printÂ salaryÂ hike
